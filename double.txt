@@ -1,0 +1,16 @@
+		https://api.thetradedesk.com/v3/doc/api/post-campaign									
+	API REQUEST	POST Campaign									
+	Function	Create New Campaign							CampaignConversionReportingColumns		
+	Parameters		AdvertiserID	Campaign Name	Budget	BudgetInImpressions	StartDate	EndDate	TrackingTagID	TrackingTagName	ReportingColumnID
+	Excel Input Header		2gorekc	T-Mobile	1000	30000	15-Apr		vuspcbl5	Ticket Order Conversion	1
+			46k3nk3	Verizon	2000	50000	30-Apr		asdffbe32	Ticket Order Conversion	2
+											
+											
+											
+											
+											
+											
+											
+											
+											
+											

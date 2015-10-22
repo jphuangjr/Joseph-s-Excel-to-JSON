@@ -3,43 +3,46 @@
 
 
 ///////Variables (PLEASE EDIT TO YOUR NEEDS) ///////
-var txtFile = "windows_formatted.txt"
+var txtFile = "double.txt"
 var Currency = "USD";
 ////////////////////////////////////////////////////
 
 
 var fs = require('fs');
-var output = fs.readFileSync(txtFile, "utf8").trim().split('\n').map(function(line){ return line.split('\t')})
+var output = fs.readFileSync(txtFile, "utf8").trim().split('\n').map(function(line){ return line.split('\t')});
 
 output[3][7] = output[3][7].trim();
 
 output.splice(0, 3)
 
 function createJson(input){
-    var jsonObj = {}; //Empty JS object.
+    var campaigns = [];
+    var jsonObj = {}; //Empty JS object to be converted to JSON.
 
     var CampaignConversion = {};
 
-    for(var j = 9; j < 12; j++){
-        CampaignConversion[input[0][j]] = input[1][j];
+    for(var k=1; k<input.length; k++){ //Outer loop that loops through number of campaigns
+        for(var j = 9; j < 12; j++){ //Deals with Campaign coversion columns
+            CampaignConversion[input[0][j].trim()] = input[k][j].trim();
+        }
+        for(var i=3; i<input[0].length-3; i++){ //loops through columns and creates a JS object.
+            jsonObj[input[0][i].trim()] = input[k][i].trim();
+        }
+        jsonObj.CampaignConversionReportingColumns =  CampaignConversion;// pushes the campaign conversion obj created above into main js obj
+        var budget_amount = jsonObj.Budget; //Temporary budget variable
+        jsonObj.Budget = {amount: budget_amount, CurrencyCode: Currency}; //re-adds budget variable value with added currency code
+        var jsonObj2 = JSON.stringify(jsonObj); //take a JS object in JSON format and converts to JSON.
+        campaigns.push(jsonObj2); //Pushed json objects to an array
     }
-
-    //loop to fill js object with keys and values in JSON format.
-    for(var i=3; i<input[0].length-3; i++){
-        jsonObj[input[0][i]] = input[1][i];
-    }
-    jsonObj.CampaignConversionReportingColumns =  CampaignConversion;
-    var budget_amount = jsonObj.Budget; //Temporary budget variable
-    jsonObj.Budget = {amount: budget_amount, CurrencyCode: Currency}; //re-adds budget variable value with added currency code
-
-    var jsonObj2 = JSON.stringify(jsonObj); //take a JS object in JSON format and converts to JSON.
-    return jsonObj2; //Prints out in Terminal/Windows Command Prompt, the JSON result.
+    return campaigns; //Returns the array holding all the JSON objects.
 }
 
+var array_json = createJson(output); //new Variable holding the resulting array with JSON objects inside.
 
-var HARRO = createJson(output);
+array_json.forEach(function(value){ //Prints out in console each JSON object.
 
-console.log(HARRO)
+    console.log(value);
+});
 
 
 
